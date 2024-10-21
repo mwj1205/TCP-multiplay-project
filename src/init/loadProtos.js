@@ -47,3 +47,8 @@ export const loadProtos = async () => {
     console.error('Protobuf 파일 중 오류가 발생했습니다.', error);
   }
 };
+
+export const getProtoMessages = () => {
+  // 얕은 복사로 리턴
+  return { ...protoMessages };
+};
