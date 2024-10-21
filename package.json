@@ -1,0 +1,26 @@
+{
+  "name": "multiplayproject",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ./src/server.js",
+    "client": "node client.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "lodash": "^4.17.21",
+    "long": "^5.2.3",
+    "mysql2": "^3.11.3",
+    "protobufjs": "^7.4.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3"
+  }
+}
