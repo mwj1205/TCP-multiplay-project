@@ -1,6 +1,8 @@
 import { config } from '../../config/config.js';
 import { getProtoTypeNameByHandlerId } from '../../handlers/index.js';
 import { getProtoMessages } from '../../init/loadProtos.js';
+import CustomError from '../error/customError.js';
+import { ErrorCodes } from '../error/errorCodes.js';
 
 export const packetParser = (data) => {
   const protoMessages = getProtoMessages();
@@ -11,7 +13,7 @@ export const packetParser = (data) => {
   try {
     packet = Packet.decode(data);
   } catch (e) {
-    console.error(e);
+    throw new CustomError(ErrorCodes.PACKET_DECODE_ERROR, '패킷 디코딩 중 오류가 발생했습니다.');
   }
 
   const handlerId = packet.handlerId;
@@ -21,13 +23,16 @@ export const packetParser = (data) => {
 
   // 클라이언트 버전 체크
   if (clientVersion !== config.client.version) {
-    console.error('클라이언트 버전이 일치하지 않습니다.');
+    throw new CustomError(
+      ErrorCodes.CLIENT_VERSION_MISMATCH,
+      '클라이언트 버전이 일치하지 않습니다.',
+    );
   }
 
   // handler가 어떤 prototype을 사용하는지 가져옴
   const protoTypeName = getProtoTypeNameByHandlerId(handlerId);
   if (!protoTypeName) {
-    console.error(`알 수 없는 핸들러 Id: ${handlerId}`);
+    throw new CustomError(ErrorCodes.UNKNOWN_HANDLER_ID, `알 수 없는 핸들러 Id: ${handlerId}`);
   }
 
   // '.'을 기준으로 namespace는 패키지 이름, 뒤는 타입 이름
@@ -38,13 +43,16 @@ export const packetParser = (data) => {
   try {
     payload = PayloadType.decode(packet.payload);
   } catch (e) {
-    console.error(e);
+    throw new CustomError(ErrorCodes.PACKET_DECODE_ERROR, '패킷 디코딩 중 오류가 발생했습니다.');
   }
 
   // 디코드 하는 과정에서 verify도 하기 때문에 필요한 경우는 아님
   const errorMessage = PayloadType.verify(payload);
   if (errorMessage) {
-    console.error('패킷 구조가 일치하지 않습니다: ', errorMessage);
+    throw new CustomError(
+      ErrorCodes.INVALID_PACKET,
+      `패킷 구조가 일치하지 않습니다: ${errorMessage}`,
+    );
   }
 
   // 필드가 비어있는 경우 = 필수 필드가 누락된 경우
@@ -55,7 +63,10 @@ export const packetParser = (data) => {
   const missingFields = expectedFields.filter((field) => !actualFields.includes(field));
 
   if (missingFields.length > 0) {
-    console.error(`필수 필드가 누락되었습니다: ${missingFields.join(', ')}`);
+    throw new CustomError(
+      ErrorCodes.MISSING_FIELDS,
+      `필수 필드가 누락되었습니다: ${missingFields.join(', ')}`,
+    );
   }
 
   return { handlerId, userId, payload, sequence };
