@@ -1,3 +1,5 @@
+import { createPingPacket } from '../../utils/notification/game.notification.js';
+
 // 유저 클래스
 class User {
   constructor(id, socket) {
@@ -7,6 +9,7 @@ class User {
     this.y = 0;
     this.sequence = 0;
     this.lastUpdateTime = Date.now();
+    this.latency = 0;
   }
 
   // 유저의 x, y 위치 변경
@@ -19,6 +22,18 @@ class User {
   // sequence 증가
   getNextSequence() {
     return ++this.sequence;
+  }
+
+  ping() {
+    const now = Date.now();
+
+    console.log(`[${this.id}] ping`);
+    this.socket.write(createPingPacket(now));
+  }
+
+  handlePong(data) {
+    const now = Date.now();
+    this.latency = (now - data.timestamp) / 2;
   }
 }
 
