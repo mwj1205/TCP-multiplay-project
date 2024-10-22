@@ -17,7 +17,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
     }
 
-    addUser(socket, deviceId); // 세션에 유저 추가
+    addUser(socket, user.id); // 세션에 유저 추가
 
     // response 생성
     const initialResponse = createResponse(

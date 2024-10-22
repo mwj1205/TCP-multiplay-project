@@ -1,6 +1,8 @@
 import { HANDLER_IDS } from '../constants/handlerIds.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
+import createGameHandler from './game/createGame.handler.js';
+import joinGameHandler from './game/joinGame.handler.js';
 import initialHandler from './user/initial.handler.js';
 
 // 핸들러 매핑
@@ -9,6 +11,16 @@ const handlers = {
     // 0을 의미함
     handler: initialHandler,
     protoType: 'initial.InitialPacket',
+  },
+  [HANDLER_IDS.CREATE_GAME]: {
+    // 4을 의미함
+    handler: createGameHandler,
+    protoType: 'game.CreateGamePayload',
+  },
+  [HANDLER_IDS.JOIN_GAME]: {
+    // 5을 의미함
+    handler: joinGameHandler,
+    protoType: 'game.JoinGamePayload',
   },
 };
 

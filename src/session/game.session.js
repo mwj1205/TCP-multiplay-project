@@ -1,8 +1,9 @@
+import Game from '../classes/models/game.class.js';
 import { GameSessions } from './sessions.js';
 
 // 게임 세션 추가
 export const addGameSession = (id) => {
-  const session = new Game(id);
+  const session = new Game(id); // 게임 클래스 생성
   GameSessions.push(session);
   return session;
 };
