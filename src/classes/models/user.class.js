@@ -36,6 +36,18 @@ class User {
     this.latency = (now - data.timestamp) / 2;
     console.log(`Received pong from user ${this.id} at ${now} with latency ${this.latency}ms`);
   }
+
+  calculatePosition(latency) {
+    const timeDiff = latency / 1000; // 초 단위로 변경
+    const speed = 1; // 속력은 일단 고정
+    const distance = speed * timeDiff;
+
+    // x만 움직인다고 가정
+    return {
+      x: this.x + distance,
+      y: this.y,
+    };
+  }
 }
 
 export default User;

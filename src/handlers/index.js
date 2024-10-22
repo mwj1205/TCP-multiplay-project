@@ -3,6 +3,7 @@ import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
 import createGameHandler from './game/createGame.handler.js';
 import joinGameHandler from './game/joinGame.handler.js';
+import updateLocationHandler from './game/updateLocation.handler.js';
 import initialHandler from './user/initial.handler.js';
 
 // 핸들러 매핑
@@ -21,6 +22,11 @@ const handlers = {
     // 5을 의미함
     handler: joinGameHandler,
     protoType: 'game.JoinGamePayload',
+  },
+  [HANDLER_IDS.UPDATE_LOCATION]: {
+    // 6
+    handler: updateLocationHandler,
+    protoType: 'game.UpdateLocationPayload',
   },
 };
 

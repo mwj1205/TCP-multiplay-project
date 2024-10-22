@@ -18,6 +18,26 @@ const makeNotification = (message, type) => {
   return Buffer.concat([packetLength, packetType, message]);
 };
 
+export const createLocationPacket = (users) => {
+  const protoMessage = getProtoMessages();
+  const Location = protoMessage.gameNotification.UpdateLocation;
+
+  const payload = { users };
+  const message = Location.create(payload);
+  const locationPacket = Location.encode(message).finish();
+  return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
+};
+
+export const gameStartNotification = (gameId, timestamp) => {
+  const protoMessage = getProtoMessages();
+  const Start = protoMessage.gameNotification.START;
+
+  const payload = { gameId, timestamp };
+  const message = Start.create(payload);
+  const StartPacket = Start.encode(message).finish();
+  return makeNotification(StartPacket, PACKET_TYPE.GAME_START);
+};
+
 export const createPingPacket = (timestamp) => {
   const protoMessages = getProtoMessages();
   const ping = protoMessages.common.Ping;
