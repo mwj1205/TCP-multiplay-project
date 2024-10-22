@@ -1,8 +1,9 @@
+import User from '../classes/models/user.class.js';
 import { UserSessions } from './sessions.js';
 
 // 유저 세션 추가
 export const addUser = (socket, uuid) => {
-  const user = { socket, id: uuid, sequence: 0 };
+  const user = new User(uuid, socket);
   UserSessions.push(user);
   return user;
 };
@@ -19,7 +20,7 @@ export const removeUser = (socket) => {
 export const getNextSequence = (id) => {
   const user = getUserById(id);
   if (user) {
-    return ++user.sequence;
+    return user.getNextSequence();
   }
   return null;
 };
