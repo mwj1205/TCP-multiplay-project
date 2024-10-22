@@ -4,14 +4,14 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 import { getNextSequence } from '../../session/user.session.js';
 
 // response 생성
-export const createResponse = (handlerid, responseCode, data = null, userId) => {
+export const createResponse = (handlerId, responseCode, data = null, userId) => {
   // 프로토타입 가져오기
   const protoMessages = getProtoMessages();
   const Response = protoMessages.response.Response;
 
   // payload 생성
   const responsePayload = {
-    handlerid,
+    handlerId,
     responseCode,
     timestamp: Date.now(),
     data: data ? Buffer.from(JSON.stringify(data)) : null,

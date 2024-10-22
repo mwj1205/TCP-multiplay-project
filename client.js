@@ -78,7 +78,7 @@ const sendPong = (socket, timestamp) => {
 
 const updateLocation = (socket) => {
   x += 0.1;
-  const packet = createPacket(6, { gameId, x, y }, '1.0.0', 'game', 'LocationUpdatePayload');
+  const packet = createPacket(6, { gameId, x, y }, '1.0.0', 'game', 'UpdateLocationPayload');
 
   sendPacket(socket, packet);
 };
@@ -128,6 +128,7 @@ client.on('data', (data) => {
       const responseData = JSON.parse(Buffer.from(response.data).toString());
       if (response.handlerId === 0) {
         userId = responseData.userId;
+        console.log('userId: ', userId);
       }
       console.log('응답 데이터:', responseData);
       sequence = response.sequence;
@@ -167,7 +168,7 @@ client.on('data', (data) => {
     }
   } else if (packetType === 3) {
     try {
-      const locationUpdate = protoMessages.gameNotification.LocationUpdate;
+      const locationUpdate = protoMessages.gameNotification.UpdateLocation;
       const locationUpdateMessage = locationUpdate.decode(packet);
 
       console.log('응답 데이터:', locationUpdateMessage);

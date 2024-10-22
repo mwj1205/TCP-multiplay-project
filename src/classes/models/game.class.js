@@ -4,7 +4,7 @@ import {
 } from '../../utils/notification/game.notification.js';
 import IntervalManager from '../managers/interval.manager.js';
 
-const MAX_PLAYERS = 4;
+const MAX_PLAYERS = 2;
 
 class Game {
   constructor(id) {
@@ -21,7 +21,7 @@ class Game {
     this.users.push(user);
 
     // ping interval 추가
-    this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
+    this.intervalManager.addPlayer(user.id, user.ping.bind(user), 10000);
     if (this.users.length === MAX_PLAYERS) {
       setTimeout(() => {
         this.startGame();

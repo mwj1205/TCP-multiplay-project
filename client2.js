@@ -6,7 +6,7 @@ const TOTAL_LENGTH = 4; // 전체 길이를 나타내는 4바이트
 const PACKET_TYPE_LENGTH = 1; // 패킷타입을 나타내는 1바이트
 
 let userId;
-let gameId = 'ccde9285-5c1e-4b29-8468-f18da5a94ddd';
+let gameId = '219a91e4-2190-45ef-b935-906ca4731220';
 let sequence = 0;
 const deviceId = 'xxxxx';
 let x = 0.0;
@@ -78,7 +78,7 @@ const sendPong = (socket, timestamp) => {
 
 const updateLocation = (socket) => {
   x += 1;
-  const packet = createPacket(6, { gameId, x, y }, '1.0.0', 'game', 'LocationUpdatePayload');
+  const packet = createPacket(6, { gameId, x, y }, '1.0.0', 'game', 'UpdateLocationPayload');
 
   sendPacket(socket, packet);
 };
@@ -168,7 +168,7 @@ client.on('data', async (data) => {
     }
   } else if (packetType === 3) {
     try {
-      const locationUpdate = protoMessages.gameNotification.LocationUpdate;
+      const locationUpdate = protoMessages.gameNotification.UpdateLocation;
       const locationUpdateMessage = locationUpdate.decode(packet);
 
       console.log('응답 데이터:', locationUpdateMessage);

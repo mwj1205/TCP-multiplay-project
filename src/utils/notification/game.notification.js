@@ -30,7 +30,7 @@ export const createLocationPacket = (users) => {
 
 export const gameStartNotification = (gameId, timestamp) => {
   const protoMessage = getProtoMessages();
-  const Start = protoMessage.gameNotification.START;
+  const Start = protoMessage.gameNotification.Start;
 
   const payload = { gameId, timestamp };
   const message = Start.create(payload);
