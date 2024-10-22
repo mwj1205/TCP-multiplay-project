@@ -6,7 +6,7 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 
 // 범용적으로 다른 notification에도 사용
 const makeNotification = (message, type) => {
-  const packetLength = Buffer.alloc(config.packet.typeLength);
+  const packetLength = Buffer.alloc(config.packet.totalLength);
   packetLength.writeUInt32BE(
     message.length + config.packet.totalLength + config.packet.typeLength,
     0,

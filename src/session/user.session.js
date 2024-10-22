@@ -29,3 +29,8 @@ export const getNextSequence = (id) => {
 export const getUserById = (id) => {
   return UserSessions.find((user) => user.id === id);
 };
+
+// 소켓으로 유저 조회
+export const getUserBySocket = (socket) => {
+  return UserSessions.find((user) => user.socket === socket);
+};
