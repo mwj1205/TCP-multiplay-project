@@ -9,7 +9,7 @@ const updateLocationHandler = ({ socket, userId, payload }) => {
     const gameSession = getGameSession(gameId);
 
     if (!gameSession) {
-      throw new CustomError(ErrorCodes.GAME_NOT_FOUND, '게임 세션을 찾을 수 없습니다.');
+      throw new CustomError(ErrorCodes.GAME_NOT_FOUND, `게임 세션을 찾을 수 없습니다: ${gameId}`);
     }
 
     const user = gameSession.getUser(userId);

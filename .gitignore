@@ -20,7 +20,7 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
-/client-unity
+/client
 
 # IDEs and editors
 /.idea
