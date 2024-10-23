@@ -48,6 +48,14 @@ class User {
       y: this.y,
     };
   }
+
+  setlatency(latency) {
+    this.latency = latency;
+  }
+
+  setplayerId(id) {
+    this.playerId = id;
+  }
 }
 
 export default User;

@@ -10,6 +10,7 @@ multiplayProject
 ├─ package.json
 ├─ readme.md
 └─ src
+   ├─ server.js
    ├─ classes
    │  ├─ managers
    │  │  ├─ base.manager.js
@@ -38,34 +39,31 @@ multiplayProject
    │  ├─ onEnd.js
    │  └─ onError.js
    ├─ handlers
+   │  ├─ index.js
    │  ├─ game
    │  │  ├─ createGame.handler.js
    │  │  ├─ joinGame.handler.js
    │  │  └─ updateLocation.handler.js
-   │  ├─ index.js
    │  └─ user
    │     └─ initial.handler.js
    ├─ init
-   │  ├─ assets.js
    │  ├─ index.js
    │  └─ loadProtos.js
    ├─ protobuf
+   │  ├─ packetNames.js
    │  ├─ notification
    │  │  └─ game.notification.proto
-   │  ├─ packetNames.js
    │  ├─ request
    │  │  ├─ common.proto
    │  │  ├─ game.proto
    │  │  └─ initial.proto
    │  └─ response
    │     └─ response.proto
-   ├─ server.js
    ├─ session
    │  ├─ game.session.js
    │  ├─ sessions.js
    │  └─ user.session.js
    └─ utils
-      ├─ dateFormatter.js
       ├─ db
       │  └─ testConnection
       ├─ error
@@ -78,5 +76,6 @@ multiplayProject
       │  └─ packetParser.js
       ├─ response
       │  └─ createResponse.js
+      ├─ dateFormatter.js
       └─ transfromCase.js
 ```
