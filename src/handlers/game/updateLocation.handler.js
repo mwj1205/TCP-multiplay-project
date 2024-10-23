@@ -6,6 +6,8 @@ import { handlerError } from '../../utils/error/errorHandler.js';
 const updateLocationHandler = ({ socket, userId, payload }) => {
   try {
     const { gameId, x, y } = payload;
+    console.log('userId: ', userId);
+    console.log('payload: ', payload);
     const gameSession = getGameSession(gameId);
 
     if (!gameSession) {

@@ -111,4 +111,7 @@ public class Response {
 
     [ProtoMember(4)]
     public byte[] data { get; set; }
+
+    [ProtoMember(5)]
+    public uint sequence { get; set; }
 }

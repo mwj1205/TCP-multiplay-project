@@ -24,6 +24,8 @@ public class NetworkManager : MonoBehaviour
     private byte[] receiveBuffer = new byte[4096];
     private List<byte> incompleteData = new List<byte>();
 
+    private uint sequence;
+
     void Awake() {        
         instance = this;
         wait = new WaitForSecondsRealtime(5);
@@ -144,7 +146,7 @@ public class NetworkManager : MonoBehaviour
             handlerId = handlerId,
             userId = GameManager.instance.deviceId,
             clientVersion = GameManager.instance.version,
-            sequence = 0,
+            sequence = sequence,
             payload = payloadData,
         };
 
@@ -182,7 +184,7 @@ public class NetworkManager : MonoBehaviour
     public void SendLocationUpdatePacket(float x, float y) {
         UpdateLocationPayload locationUpdatePayload = new UpdateLocationPayload
         {
-            gameId = "a",
+            gameId = GameManager.instance.gameId,
             x = x,
             y = y,
         };
@@ -229,8 +231,6 @@ public class NetworkManager : MonoBehaviour
             byte[] packetData = incompleteData.GetRange(5, packetLength - 5).ToArray();
             incompleteData.RemoveRange(0, packetLength);
 
-            // Debug.Log($"Received packet: Length = {packetLength}, Type = {packetType}");
-
             switch (packetType)
             {
                 case Packets.PacketType.Normal:
@@ -243,11 +243,19 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public class InitialResponseData {
+        public string userId;
+        public string gameId;
+        public int playersCount;
+        public int maxPlayers;
+    }
+
+
     void HandleNormalPacket(byte[] packetData) {
         // 패킷 데이터 처리
         var response = Packets.Deserialize<Response>(packetData);
-        // Debug.Log($"HandlerId: {response.handlerId}, responseCode: {response.responseCode}, timestamp: {response.timestamp}");
-        
+        sequence = response.sequence;
         if (response.responseCode != 0 && !uiNotice.activeSelf) {
             AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
             StartCoroutine(NoticeRoutine(2));
@@ -256,6 +264,10 @@ public class NetworkManager : MonoBehaviour
 
         if (response.data != null && response.data.Length > 0) {
             if (response.handlerId == 0) {
+                string jsonString = Encoding.UTF8.GetString(response.data);
+                InitialResponseData responseData = JsonUtility.FromJson<InitialResponseData>(jsonString);
+                GameManager.instance.userId = responseData.userId;
+                GameManager.instance.gameId = responseData.gameId;
                 GameManager.instance.GameStart();
             }
             ProcessResponseData(response.data);
@@ -275,10 +287,14 @@ public class NetworkManager : MonoBehaviour
     void HandleLocationPacket(byte[] data) {
         try {
             LocationUpdate response;
-
             if (data.Length > 0) {
                 // 패킷 데이터 처리
                 response = Packets.Deserialize<LocationUpdate>(data);
+                Debug.Log($"LocationUpdate: User count: {response.users.Count}");
+                foreach (var user in response.users)
+                {
+                    Debug.Log($"UserId: {user.id}, playerId: {user.playerId}, Position: ({user.x}, {user.y})");
+                }
             } else {
                 // data가 비어있을 경우 빈 배열을 전달
                 response = new LocationUpdate { users = new List<LocationUpdate.UserLocation>() };
