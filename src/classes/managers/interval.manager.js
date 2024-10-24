@@ -21,7 +21,7 @@ class IntervalManager extends BaseManager {
     this.addPlayer(gameId, callback, interval, 'updatePosition');
   }
 
-  removePlayer() {
+  removePlayer(playerId) {
     if (!this.intervals.has(playerId)) {
       const userIntervals = this.intervals.get(playerId);
       userIntervals.forEach((intervalId) => clearInterval(intervalId));

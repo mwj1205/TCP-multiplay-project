@@ -18,7 +18,9 @@ class Game {
     if (this.users.length >= MAX_PLAYERS) {
       throw new Error('Game session is full');
     }
+
     this.users.push(user);
+    user.setGame(this.id);
 
     // ping interval 추가
     this.intervalManager.addPlayer(user.id, user.ping.bind(user), 10000);
@@ -34,6 +36,10 @@ class Game {
   }
 
   removeUser(userId) {
+    const user = this.getUser(userId);
+    if (user) {
+      user.leaveGame();
+    }
     this.users = this.users.filter((user) => user.id !== userId);
     this.intervalManager.removePlayer(userId);
 

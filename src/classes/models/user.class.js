@@ -10,6 +10,16 @@ class User {
     this.sequence = 0;
     this.lastUpdateTime = Date.now();
     this.latency = 0;
+    this.gameId = null;
+    this.playerId = 0;
+  }
+
+  setGame(gameId) {
+    this.gameId = gameId;
+  }
+
+  leaveGame() {
+    this.gameId = null;
   }
 
   // 유저의 x, y 위치 변경
