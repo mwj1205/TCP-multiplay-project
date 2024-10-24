@@ -22,7 +22,7 @@ class IntervalManager extends BaseManager {
   }
 
   removePlayer(playerId) {
-    if (!this.intervals.has(playerId)) {
+    if (this.intervals.has(playerId)) {
       const userIntervals = this.intervals.get(playerId);
       userIntervals.forEach((intervalId) => clearInterval(intervalId));
       this.intervals.delete(playerId);
@@ -30,7 +30,7 @@ class IntervalManager extends BaseManager {
   }
 
   removeInterval(playerId, type) {
-    if (!this.intervals.has(playerId)) {
+    if (this.intervals.has(playerId)) {
       const userIntervals = this.intervals.get(playerId);
       if (userIntervals.has(type)) {
         clearInterval(userIntervals.get(type));

@@ -14,10 +14,12 @@ class User {
     this.playerId = 0;
   }
 
+  // 게임 참여
   setGame(gameId) {
     this.gameId = gameId;
   }
 
+  // 게임 나가기
   leaveGame() {
     this.gameId = null;
   }
