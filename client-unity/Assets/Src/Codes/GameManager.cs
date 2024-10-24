@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
     public int targetFrameRate;
     public string version = "1.0.0";
     public int latency = 2;
+    public string gameId;
 
     [Header("# Player Info")]
     public uint playerId;
     public string deviceId;
+    public string userId;
 
     [Header("# Game Object")]
     public PoolManager pool;

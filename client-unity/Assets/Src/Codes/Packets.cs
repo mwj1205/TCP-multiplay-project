@@ -70,6 +70,7 @@ public class UpdateLocationPayload
 
     [ProtoMember(2, IsRequired = true)]
     public float x { get; set; }
+
     [ProtoMember(3, IsRequired = true)]
     public float y { get; set; }
 }
@@ -110,4 +111,7 @@ public class Response {
 
     [ProtoMember(4)]
     public byte[] data { get; set; }
+
+    [ProtoMember(5)]
+    public uint sequence { get; set; }
 }
